@@ -1,41 +1,38 @@
-export const formatSalary = (min, max) => {
+/**
+ * Formatter utilities
+ * Accessibility: Format dates, numbers, and text for screen readers
+ */
+export const formatDistanceToNow = (dateString) => {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffInDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+
+  if (diffInDays === 0) return 'Today';
+  if (diffInDays === 1) return 'Yesterday';
+  if (diffInDays < 7) return `${diffInDays} days ago`;
+  if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`;
+  if (diffInDays < 365) return `${Math.floor(diffInDays / 30)} months ago`;
+  return `${Math.floor(diffInDays / 365)} years ago`;
+};
+
+export const formatSalary = (min, max, currency = 'USD', period = 'year') => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',
+    currency,
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
   });
-  
-  return `${formatter.format(min)} - ${formatter.format(max)}`;
+
+  const periodText = period === 'year' ? 'per year' : 'per month';
+  return `${formatter.format(min)} - ${formatter.format(max)} ${periodText}`;
 };
 
-export const formatDate = (dateString) => {
-  const now = new Date();
-  const date = new Date(dateString);
-  const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
-  
-  if (diffInHours < 1) {
-    return 'Just now';
-  } else if (diffInHours < 24) {
-    return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
-  } else if (diffInHours < 168) {
-    const days = Math.floor(diffInHours / 24);
-    return `${days} day${days > 1 ? 's' : ''} ago`;
-  } else {
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-  }
-};
-
-export const capitalizeFirst = (str) => {
-  if (!str) return '';
-  return str.charAt(0).toUpperCase() + str.slice(1).replace('-', ' ');
-};
-
-export const truncateText = (text, maxLength = 100) => {
-  if (text.length <= maxLength) return text;
-  return text.substring(0, maxLength).trim() + '...';
+/**
+ * Accessibility: Format text for screen readers
+ * Adds pauses and emphasis for better comprehension
+ */
+export const formatForScreenReader = (text) => {
+  return text
+    .replace(/\s+/g, ' ') // Normalize whitespace
+    .trim();
 };

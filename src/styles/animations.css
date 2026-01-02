@@ -1,0 +1,265 @@
+/**
+ * Accessibility-friendly animations
+ * Respects prefers-reduced-motion preference
+ */
+
+@layer utilities {
+  /* Fade animations */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .animate-fade-out {
+    animation: fadeOut 0.3s ease-in-out;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.3s ease-out;
+  }
+
+  .animate-fade-in-down {
+    animation: fadeInDown 0.3s ease-out;
+  }
+
+  /* Slide animations */
+  .animate-slide-in-up {
+    animation: slideInUp 0.3s ease-out;
+  }
+
+  .animate-slide-in-down {
+    animation: slideInDown 0.3s ease-out;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.3s ease-out;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.3s ease-out;
+  }
+
+  /* Scale animations */
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+
+  .animate-scale-out {
+    animation: scaleOut 0.2s ease-out;
+  }
+
+  /* Pulse animation (subtle) */
+  .animate-pulse-subtle {
+    animation: pulseSubtle 2s ease-in-out infinite;
+  }
+
+  /* Shake animation for errors */
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
+  }
+
+  /* Skeleton loading animation */
+  .animate-skeleton {
+    animation: skeletonLoading 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes skeletonLoading {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-fade-out,
+  .animate-fade-in-up,
+  .animate-fade-in-down,
+  .animate-slide-in-up,
+  .animate-slide-in-down,
+  .animate-slide-in-left,
+  .animate-slide-in-right,
+  .animate-scale-in,
+  .animate-scale-out,
+  .animate-pulse-subtle,
+  .animate-shake,
+  .animate-skeleton {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Accessibility: Focus animation */
+.focus-ring {
+  @apply outline-2 outline-offset-2 outline-primary-600 dark:outline-primary-400;
+  transition: outline-offset 0.2s ease;
+}
+
+.focus-ring:focus {
+  outline-offset: 4px;
+}
+
+/* Accessibility: Skip link animation */
+.skip-link {
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Accessibility: High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    border-width: 2px !important;
+  }
+  
+  button:focus {
+    outline: 3px solid currentColor !important;
+    outline-offset: 2px !important;
+  }
+}
+
+/* Print styles for accessibility */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
+  }
+  
+  a {
+    color: #000 !important;
+    text-decoration: underline !important;
+  }
+  
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+}
